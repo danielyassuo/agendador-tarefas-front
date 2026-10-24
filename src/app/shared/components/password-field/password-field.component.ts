@@ -15,5 +15,20 @@ import { FormControl , ReactiveFormsModule} from '@angular/forms';
 export class PasswordFieldComponent {
   hide = true; //o icone vem com a senha fechada
 
-  @Input({required : true}) control! : FormControl
+  @Input({required : true}) control! : FormControl //non-null assertion operator, essa propriedade irá vir em tempo de execução
+
+  //validacoes
+
+  get passwordErrors () : string | null {
+    const passwordControl = this.control;
+
+    if(passwordControl?.errors?.['required']){
+      return 'O campo senha é obrigatório ser preenchido';
+    }
+    if(passwordControl?.errors?.['minlength']){
+      return 'Cadastre uma senha com no minímo 6 digitos'
+    }
+
+    return null;
+  }
 }
