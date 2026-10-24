@@ -12,10 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  CommonModule,
-  NgIf,
-} from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +26,7 @@ import {
     PasswordFieldComponent,
     ReactiveFormsModule,
     CommonModule,
-    NgIf
+    NgIf,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -48,6 +45,29 @@ export class RegisterComponent {
 
   get passwordControl(): FormControl {
     return this.form.get('password') as FormControl;
+  }
+
+  get fullNameErrors(): string | null {
+    const control = this.form.get('fullname');
+    if (control?.hasError('required')) {
+      return 'O nome completo é um campo obrigatório';
+    }
+    if (control?.hasError('minlength')) {
+      return 'Escreva um nome com mais de 3 letras';
+    }
+    return null;
+  }
+
+  get emailErrors () : string | null {
+    const control = this.form.get('email');
+
+    if(control?.hasError('required')){
+      return 'O cadastro de e-mail é obrigatório'
+    }
+    if(control?.hasError('email')){
+      return 'Este e-mail é inválido'
+    }
+    return null;
   }
 
   submit() {
