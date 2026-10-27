@@ -3,62 +3,77 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 interface UserRegisterPayload {
-  nome : string ;
-  email : string;
-  senha : string;
+  nome: string;
+  email: string;
+  senha: string;
 
-   enderecos?: [
-      {
-      rua: string,
-      numero: number,
-      complemento: string,
-      cidade:  string,
-      estado:  string,
-      cep:  string
-    }
-    ],
-     telefones?: [
-      {
-      numero: string,
-      ddd: string
-    }
-    ] 
-  }
+  enderecos?: [
+    {
+      rua: string;
+      numero: number;
+      complemento: string;
+      cidade: string;
+      estado: string;
+      cep: string;
+    },
+  ];
+  telefones?: [
+    {
+      numero: string;
+      ddd: string;
+    },
+  ];
+}
+
+export interface LoginPayload {
+  email: string;
+  senha: string;
+}
+
+interface LoginResponse {
+  email: string;
+  senha: string;
+}
 
 interface UserRegisterResponse {
-    nome: string,
-    email: string,
-    senha: string, 
-    enderecos: [
-      {
-      rua: string,
-      numero: number,
-      complemento: string,
-      cidade:  string,
-      estado:  string,
-      cep:  string
-    }
-    ] | null
-    telefones: [
-      {
-      numero: string,
-      ddd: string
-    }
-    ] | null
+  nome: string;
+  email: string;
+  senha: string;
+  enderecos:
+    | [
+        {
+          rua: string;
+          numero: number;
+          complemento: string;
+          cidade: string;
+          estado: string;
+          cep: string;
+        },
+      ]
+    | null;
+  telefones:
+    | [
+        {
+          numero: string;
+          ddd: string;
+        },
+      ]
+    | null;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   private apiUrl = 'http://localhost:1750';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
+  register(body: UserRegisterPayload): Observable<UserRegisterResponse> {
+    return this.http.post<UserRegisterResponse>(`${this.apiUrl}/usuario`, body);
+  }
 
-  
-  register (body: UserRegisterPayload): Observable<UserRegisterResponse> {
-    return this.http.post<UserRegisterResponse>(`${this.apiUrl}/usuario`, body)
+  login(body: LoginPayload): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/usuario/login`, body, {responseType: 'text' as 'json'});
   }
 }
