@@ -9,7 +9,7 @@
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>Nome Completo</mat-label>
             <input
-              formControlName="fullname"
+              formControlName="nome"
               placeholder="Digite seu nome completo"
               matInput
             />
@@ -44,7 +44,14 @@
         [disabled]="form.invalid"
         (click)="submit()"
       >
-        Cadastrar
+       
+        <span
+          class="cad-button-content"
+        >
+          {{isLoading? "Cadastrando..." : "Cadastrar"}}
+        
+         @if (isLoading) {<mat-spinner diameter="20"></mat-spinner>}
+        </span>
       </button>
     </mat-card-actions>
   </mat-card>

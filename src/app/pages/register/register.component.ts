@@ -13,6 +13,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule, NgIf } from '@angular/common';
+import { UserService } from '../../services/user.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -27,6 +30,7 @@ import { CommonModule, NgIf } from '@angular/common';
     ReactiveFormsModule,
     CommonModule,
     NgIf,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -34,21 +38,22 @@ import { CommonModule, NgIf } from '@angular/common';
 })
 export class RegisterComponent {
   form: FormGroup;
+  isLoading : boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private userService : UserService, private router : Router) {
     this.form = this.formBuilder.group({
-      fullname: ['', [Validators.required, Validators.minLength(3)]],
+      nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
   get passwordControl(): FormControl {
-    return this.form.get('password') as FormControl;
+    return this.form.get('senha') as FormControl;
   }
 
   get fullNameErrors(): string | null {
-    const control = this.form.get('fullname');
+    const control = this.form.get('nome');
     if (control?.hasError('required')) {
       return 'O nome completo é um campo obrigatório';
     }
@@ -75,6 +80,17 @@ export class RegisterComponent {
       this.form.markAllAsTouched(); //simular um click em todos os campos do formulário e marcar todos que possuem required
       return;
     }
-    console.log('Formulário submetido', this.form.value);
+    const formData = this.form.value;
+
+    this.isLoading = true;
+
+    this.userService.register(formData).subscribe({
+      next: (response ) => {
+        this.router.navigate(['/login'])
+      },
+      error : (error) => {
+        console.error(`Erro ao registrar usuário`, error)
+      },
+    })
   }
 }
