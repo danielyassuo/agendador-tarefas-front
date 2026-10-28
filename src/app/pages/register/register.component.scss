@@ -4,32 +4,41 @@
   align-items: center;
   height: 100vh;
   background-color: #f5f5f5;
+
+  mat-card {
+    width: 400px;
+    padding: 20px;
+    box-shadow: none;
+    background-color: #f5f5f5;
+
+  }
+
+  mat-card-actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  mat-card-actions button {
+    color: #005cbb;
+    font-weight: 500;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .cad-button-content {
+    display: inline-flex;
+    align-items: center;
+
+    mat-spinner {
+      margin-left: 8px;
+    }
+  }
 }
 
-.register-component mat-card {
-  width: 400px;
-  padding: 20px;
-  box-shadow: none;
-  background-color: #f5f5f5;
 
-}
-
-
-
-mat-card-actions {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-mat-card-actions button {
-  color: #005cbb;
-  font-weight: 500;
-}
-
-.form-cadastro mat-form-field {
-  width: 100%;
-}
 
 .btn-cadastrar {
   width: 100%;
@@ -44,13 +53,3 @@ mat-card-actions button {
     display: none !important;
   }
 }
-
-.register-component .cad-button-content {
-  display: inline-flex;
-  align-items: center;
-
-  mat-spinner {
-    margin-left: 8px;
-  }
-}
-
