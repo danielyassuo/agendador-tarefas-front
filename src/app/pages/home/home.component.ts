@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -11,4 +12,14 @@ import { RouterLink } from '@angular/router';
 })
 export class HomeComponent {
   imgHero = 'assets/agendador-image.png';
-}
+
+
+  //é possivel realizar com o injenct ()
+  constructor(private authService : AuthService, private router : Router){}
+
+  ngOnInit () : void {
+    if(this.authService.isLoggedIn()) {
+      this.router.navigate(['/tasks'])
+    }
+  }
+ }

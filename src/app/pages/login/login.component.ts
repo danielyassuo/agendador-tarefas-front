@@ -19,8 +19,6 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
-
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -41,19 +39,31 @@ import { AuthService } from '../../services/auth.service';
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class LoginComponent {
-  form: FormGroup<{email : FormControl<string>, senha : FormControl<string>}>;
+  form: FormGroup<{ email: FormControl<string>; senha: FormControl<string> }>;
   isLoading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private authService : AuthService,
+    private authService: AuthService,
   ) {
     this.form = this.formBuilder.group({
-      email: this.formBuilder.control ('', {validators : [Validators.required, Validators.email], nonNullable : true}),
-      senha: this.formBuilder.control ('', { validators : [Validators.required, Validators.minLength(6)], nonNullable : true}),
+      email: this.formBuilder.control('', {
+        validators: [Validators.required, Validators.email],
+        nonNullable: true,
+      }),
+      senha: this.formBuilder.control('', {
+        validators: [Validators.required, Validators.minLength(6)],
+        nonNullable: true,
+      }),
     });
+  }
+
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/tasks']);
+    }
   }
 
   get passwordControl(): FormControl {
@@ -72,7 +82,7 @@ export class LoginComponent {
     return null;
   }
 
-   submit() {
+  submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched(); //simular um click em todos os campos do formulário e marcar todos que possuem required
       return;
@@ -81,16 +91,24 @@ export class LoginComponent {
 
     this.isLoading = true;
 
-
     //TODO: trocar o serviço para login
-    this.userService.login(formData).pipe(finalize (() => this.isLoading = false)).subscribe({
-      next: (response) => {
-        this.authService.saveToken(response)
-        this.router.navigate(['/'])
-      },
-      error : (error) => {
-        console.error(`Erro ao registrar usuário`, error)
-      },
-    })
+    this.userService
+      .login(formData)
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (response) => {
+          this.authService.saveToken(response);
+          this.userService.getUserByEmail(response).subscribe({
+            next: (user) => {
+              this.authService.saveUser(user);
+            },
+          });
+
+          this.router.navigate(['/tasks']);
+        },
+        error: (error) => {
+          console.error(`Erro ao registrar usuário`, error);
+        },
+      });
   }
 }
