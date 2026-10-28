@@ -11,6 +11,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+main {
+    min-height: 100vh;
+}
+
 .full-width {
     width: 100%;
 }
@@ -24,3 +28,17 @@ body {
 .padding-g {
     padding: 24px !important;
 }
+
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: #E2E6EF;
+}
+
+
+.mat-mdc-form-field .mdc-text-field--filled {
+  border-radius: 28px;
+}
+
+
+.mat-mdc-form-field .mdc-line-ripple {
+  display: none;
+}   
