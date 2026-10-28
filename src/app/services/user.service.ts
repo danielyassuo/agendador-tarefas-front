@@ -30,10 +30,7 @@ export interface LoginPayload {
   senha: string;
 }
 
-interface LoginResponse {
-  email: string;
-  senha: string;
-}
+
 
 interface UserRegisterResponse {
   nome: string;
@@ -73,7 +70,7 @@ export class UserService {
     return this.http.post<UserRegisterResponse>(`${this.apiUrl}/usuario`, body);
   }
 
-  login(body: LoginPayload): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/usuario/login`, body, {responseType: 'text' as 'json'});
+  login(body: LoginPayload): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/usuario/login`, body, {responseType: 'text' as 'json'});
   }
 }

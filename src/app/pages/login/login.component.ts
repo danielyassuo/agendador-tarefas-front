@@ -17,6 +17,7 @@ import { LoginPayload, UserService } from '../../services/user.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 
 
@@ -47,6 +48,7 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
+    private authService : AuthService,
   ) {
     this.form = this.formBuilder.group({
       email: this.formBuilder.control ('', {validators : [Validators.required, Validators.email], nonNullable : true}),
@@ -82,7 +84,8 @@ export class LoginComponent {
 
     //TODO: trocar o serviço para login
     this.userService.login(formData).pipe(finalize (() => this.isLoading = false)).subscribe({
-      next: (response ) => {
+      next: (response) => {
+        this.authService.saveToken(response)
         this.router.navigate(['/'])
       },
       error : (error) => {
