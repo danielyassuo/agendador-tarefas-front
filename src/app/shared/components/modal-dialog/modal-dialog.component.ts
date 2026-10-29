@@ -9,10 +9,18 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+
 
 interface DialogData {
   title: string;
@@ -20,12 +28,18 @@ interface DialogData {
 }
 
 export interface DialogFields {
-  name : string ;
-  label : string;
-  value ?: string | number; 
-  button ?: {icon : string, callback: (value: string, dialogRef : MatDialogRef<ModalDialogComponent>) => void}
-  type ?: string;
-  validators ?: any[];
+  name: string;
+  label: string;
+  value?: string | number;
+  button?: {
+    icon: string;
+    callback: (
+      value: string,
+      dialogRef: MatDialogRef<ModalDialogComponent>,
+    ) => void;
+  };
+  type?: 'text' | 'number' | 'date' | 'time' | 'datetime';
+  validators?: any[];
 }
 
 @Component({
@@ -42,32 +56,34 @@ export interface DialogFields {
     MatDialogClose,
     ReactiveFormsModule,
     MatIconModule,
-],
+    MatDatepickerModule,
+  ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './modal-dialog.component.html',
   styleUrl: './modal-dialog.component.scss',
 })
 export class ModalDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ModalDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData, private readonly formBuilder : FormBuilder,
-  ) {
-  }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private readonly formBuilder: FormBuilder,
+  ) {}
 
-  fields : DialogFields[] = this.data.formConfig;
+  fields: DialogFields[] = this.data.formConfig;
 
-  private buildControls () : Record<string, any> {
-    const controls : Record<string, any> = {}
+  private buildControls(): Record<string, any> {
+    const controls: Record<string, any> = {};
 
     this.fields.forEach((field) => {
-      controls[field.name]= [field.value ??  '', field.validators || []]
-    })
+      controls[field.name] = [field.value ?? '', field.validators || []];
+    });
     return controls;
   }
 
-  form: FormGroup = this.formBuilder.group(this.buildControls ())
+  form: FormGroup = this.formBuilder.group(this.buildControls());
 
-  onSave () {
-    this.dialogRef.close(this.form.value)
+  onSave() {
+    this.dialogRef.close(this.form.value);
   }
 
   onCancel(): void {

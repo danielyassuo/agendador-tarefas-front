@@ -4,7 +4,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import {provideNativeDateAdapter} from '@angular/material/core'
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient()]
+  providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient(), provideNativeDateAdapter(),]
 };
