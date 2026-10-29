@@ -1,6 +1,8 @@
 .tasks-component {
     min-height: calc(100vh - 130px);
     display: flex;
+    flex-direction: column ;
+    gap: 12px;
     align-items: center;
     justify-content: center;
     padding: 1rem;
@@ -22,7 +24,7 @@
 
     button {
         border-radius: 28px;
-        color: white;   
+        color: white;
         background-color: rgb(21, 81, 247);
         padding: 12px 24px;
         font-weight: 600;
@@ -33,4 +35,5 @@
         font-weight: 600;
         line-height: 1.5;
     }
+
 }
