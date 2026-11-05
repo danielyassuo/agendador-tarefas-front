@@ -20,9 +20,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { Time } from '@angular/common';
 
 
-interface DialogData {
+export interface DialogData {
   title: string;
   formConfig: DialogFields[];
 }
@@ -30,7 +31,7 @@ interface DialogData {
 export interface DialogFields {
   name: string;
   label: string;
-  value?: string | number;
+  value?: string | number | Date;
   button?: {
     icon: string;
     callback: (

@@ -1,7 +1,7 @@
 .tasks-component {
     min-height: calc(100vh - 130px);
     display: flex;
-    flex-direction: column ;
+    flex-direction: column;
     gap: 12px;
     align-items: center;
     justify-content: center;
@@ -14,6 +14,20 @@
         padding: 1rem;
     }
 
+    .icone-data {
+        flex-shrink: 0;
+        margin-right: 8px;
+        
+    }
+
+    .icone-tempo {
+        flex-shrink: 0;
+        margin-right: 8px;
+        margin-left: 8px;
+    }
+
+
+
     .task-content {
         display: flex;
         flex-direction: column;
@@ -22,7 +36,15 @@
 
     }
 
-    button {
+    .btn-nova-tarefa {
+        border-radius: 28px;
+        color: white;
+        background-color: rgb(21, 81, 247);
+        padding: 12px 24px;
+        font-weight: 600;
+    }
+
+    .btn-primeiro {
         border-radius: 28px;
         color: white;
         background-color: rgb(21, 81, 247);
@@ -34,6 +56,22 @@
         font-size: 1rem;
         font-weight: 600;
         line-height: 1.5;
+    }
+
+    .task-accordion {
+        width: 100%;
+        max-width: 700px;
+        margin: 5%;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.26);
+    }
+
+    .task-expansion-painel {
+        margin: 0 5%;
+        padding: 1%;
+    }
+
+    .action-button {
+        margin-right: 1%;
     }
 
 }

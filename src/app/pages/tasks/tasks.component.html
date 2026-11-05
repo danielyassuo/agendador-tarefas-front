@@ -1,32 +1,47 @@
 <section class="tasks-component">
-  @if (!hasTasks) {
+  @if (!hasTasks()) {
     <mat-card class="task-card" appearance="outlined">
       <mat-card-content class="task-content">
         <h2>📋 Minhas tarefas</h2>
         <p>Você ainda não tem tarefas criadas.</p>
         <p>Começe criando a sua primeira tarefa!</p>
-        <button mat-flat-button (click)="cadastrarTarefa()">
+        <button class="btn-primeiro" mat-flat-button (click)="cadastrarTarefa()">
           + Cadastrar minha primeira tarefa
         </button>
       </mat-card-content>
     </mat-card>
   } @else {
-    @for (task of tasks(); track task.id) {
-      <mat-accordion>
+    <mat-accordion class="task-accordion full-witdth">
+      @for (task of tasks(); track task.id) {
         <mat-expansion-panel
+          class="task-expansion-panel"
           (opened)="panelOpenState = true"
           (closed)="panelOpenState = false"
         >
           <mat-expansion-panel-header>
-            <mat-panel-title> {{ task.nomeTarefa }} </mat-panel-title>
+            <mat-panel-title class="task-title"> {{ task.nomeTarefa }} </mat-panel-title>
             <mat-panel-description>
-              {{ task.dataCriacao }} {{ panelOpenState ? "open" : "closed" }}
+              <mat-icon class="icone-data">calendar_month</mat-icon>
+              {{ normalizarDataEvento(task.dataCriacao).dataString }} 
+              <mat-icon class="icone-tempo">scheduled</mat-icon>
+              {{normalizarDataEvento(task.dataCriacao).tempoString}}
             </mat-panel-description>
+            <button
+              class="action-button"
+              mat-icon-button
+              matSuffix
+              (click)="editarTarefa(task)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="removerTarefa(task.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
           </mat-expansion-panel-header>
           <p>{{ task.descricao }}</p>
         </mat-expansion-panel>
-      </mat-accordion>
-    }
+      }
+    </mat-accordion>
     <button class="btn-nova-tarefa" mat-flat-button (click)="cadastrarTarefa()">
       + Cadastrar nova tarefa
     </button>
