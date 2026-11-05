@@ -55,4 +55,19 @@ export class TasksService {
       tap (() => this.loadTasks())
     )
   }
+  editTask( id: string ,body: TasksPayload): Observable<TasksResponse> {
+    return this.http.put<TasksResponse>(`${this.apiUrl}/tarefas?id=${id}`, body, {
+      headers: this.getHeaders(),
+    }).pipe(
+      tap (() => this.loadTasks())
+    )
+  }
+
+   removeTask(id : string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/tarefas?id=${id}`, {
+      headers: this.getHeaders(),
+    }).pipe(
+      tap (() => this.loadTasks())
+    )
+  }
 }
